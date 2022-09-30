@@ -17,7 +17,7 @@ public class HelloTraceV1Test {
     @Test
     void begin_exception() {
         HelloTraceV1 trace = new HelloTraceV1();
-        TraceStatus status = trace.begin("hello");
+        TraceStatus status = trace.begin("ex");
         trace.exception(status, new IllegalStateException());
     }
 }
