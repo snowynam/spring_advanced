@@ -1,17 +1,16 @@
-package hello.advanced.app.v2;
+package hello.advanced.app.v3;
 
-import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
-import hello.advanced.trace.hellotrace.HelloTraceV3;
+import hello.advanced.trace.logtrace.LogTrace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceV2 {
+public class OrderServiceV3 {
 
-    private final OrderRepositoryV2 orderRepository;
-    private final HelloTraceV3 trace;
+    private final OrderRepositoryV3 orderRepository;
+    private final LogTrace trace;
 
     //생성자
     /* ctrl+insert constructor
@@ -20,11 +19,11 @@ public class OrderServiceV2 {
     }
     */
 
-    public void orderItem(TraceId traceId, String itemId){
+    public void orderItem(String itemId){
         TraceStatus status = null;
         try{
-            status = trace.beginSync(traceId,"OrderServiceV2.orderItem()");
-            orderRepository.save(status.getTraceId(), itemId);
+            status = trace.begin("OrderService.orderItem()");
+            orderRepository.save(itemId);
             trace.end(status);
         }catch(Exception e){
             trace.exception(status, e);
